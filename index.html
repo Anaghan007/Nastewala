@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth scroll-pt-28 md:scroll-pt-36">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -67,8 +67,10 @@
 
     @media (max-width: 768px) {
       body {
-        padding-bottom: 90px;
+        padding-bottom: 100px;
       }
+
+      /* Increased padding for taller bottom bar */
     }
   </style>
 </head>
@@ -77,47 +79,50 @@
 
   <div class="fixed w-full top-4 md:top-6 z-40 px-4 sm:px-6 lg:px-8 flex justify-center">
     <header
-      class="w-full max-w-[1600px] bg-white/70 backdrop-blur-2xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-full px-6 py-3 md:py-4 flex justify-between items-center relative transition-all">
+      class="w-full max-w-[1600px] bg-white/70 backdrop-blur-2xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-full px-6 py-4 md:py-5 flex justify-between items-center relative transition-all">
 
       <a href="#" class="flex-1 flex justify-start items-center gap-3 group">
-        <img src="logo.png" alt="Nastewala Logo" class="h-10 md:h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://via.placeholder.com/150x50?text=Nastewala'">
+        <img src="logo.png" alt="Nastewala Logo" class="h-12 md:h-14 w-auto object-contain group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://via.placeholder.com/150x50?text=Nastewala'">
       </a>
 
       <nav
         class="hidden md:flex justify-center gap-12 font-bold text-gray-500 text-lg absolute left-1/2 -translate-x-1/2">
-        <a href="#" class="hover:text-orange-600 transition-colors">Home</a>
-        <a href="#products" class="hover:text-orange-600 transition-colors">Premium Collection</a>
-        <a href="#footer" class="hover:text-orange-600 transition-colors">Contact</a>
+        <a href="#home" class="scroll-link hover:text-orange-600 transition-colors">Home</a>
+        <a href="#products" class="scroll-link hover:text-orange-600 transition-colors">Premium Collection</a>
+        <a href="#footer" class="scroll-link hover:text-orange-600 transition-colors">Contact</a>
       </nav>
 
       <div class="flex-1 flex justify-end items-center gap-4">
-        <button onclick="toggleCart()" class="relative flex items-center justify-center bg-gray-900 text-white h-12 w-12 md:h-14 md:w-14 rounded-full hover:bg-orange-600 hover:shadow-glow hover:-translate-y-1 transition-all duration-300 group">
-                    <i class="fas fa-shopping-bag text-lg md:text-xl group-hover:scale-110 transition-transform"></i>
-                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] md:text-xs font-extrabold w-5 h-5 md:w-6 md:h-6 flex items-center justify-center rounded-full border-[3px] border-white shadow-sm">0</span>
+        <button onclick="toggleCart()" class="relative flex items-center justify-center bg-gray-900 text-white h-14 w-14 md:h-16 md:w-16 rounded-full hover:bg-orange-600 hover:shadow-glow hover:-translate-y-1 transition-all duration-300 group">
+                    <i class="fas fa-shopping-bag text-xl md:text-2xl group-hover:scale-110 transition-transform"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-extrabold w-6 h-6 md:w-7 md:h-7 flex items-center justify-center rounded-full border-[3px] border-white shadow-sm">0</span>
                 </button>
       </div>
     </header>
   </div>
 
-  <div class="md:hidden fixed bottom-5 left-1/2 -translate-x-1/2 w-[90%] sm:w-[80%] z-30">
+  <div class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] sm:w-[80%] z-30">
     <div
-      class="bg-gray-900/95 backdrop-blur-2xl rounded-full px-8 py-4 flex justify-between items-center shadow-[0_20px_40px_rgba(0,0,0,0.3)] border border-gray-700/50">
-      <a href="#" class="text-gray-400 hover:text-white flex flex-col items-center gap-1 transition-all">
-        <i class="fas fa-home text-xl"></i>
-        <span class="text-[10px] font-extrabold uppercase tracking-wider">Home</span>
+      class="bg-gray-900/95 backdrop-blur-2xl rounded-full px-8 py-5 flex justify-between items-center shadow-[0_20px_40px_rgba(0,0,0,0.3)] border border-gray-700/50">
+      <a href="#home"
+        class="scroll-link text-gray-400 hover:text-white flex flex-col items-center gap-1.5 transition-all">
+        <i class="fas fa-home text-2xl"></i>
+        <span class="text-[11px] font-extrabold uppercase tracking-wider">Home</span>
       </a>
-      <a href="#products" class="text-gray-400 hover:text-white flex flex-col items-center gap-1 transition-all">
-        <i class="fas fa-box-open text-xl"></i>
-        <span class="text-[10px] font-extrabold uppercase tracking-wider">Menu</span>
+      <a href="#products"
+        class="scroll-link text-gray-400 hover:text-white flex flex-col items-center gap-1.5 transition-all">
+        <i class="fas fa-box-open text-2xl"></i>
+        <span class="text-[11px] font-extrabold uppercase tracking-wider">Menu</span>
       </a>
-      <a href="#footer" class="text-gray-400 hover:text-white flex flex-col items-center gap-1 transition-all">
-        <i class="fas fa-phone-alt text-xl scale-x-[-1]"></i>
-        <span class="text-[10px] font-extrabold uppercase tracking-wider">Contact</span>
+      <a href="#footer"
+        class="scroll-link text-gray-400 hover:text-white flex flex-col items-center gap-1.5 transition-all">
+        <i class="fas fa-phone-alt text-2xl scale-x-[-1]"></i>
+        <span class="text-[11px] font-extrabold uppercase tracking-wider">Contact</span>
       </a>
     </div>
   </div>
 
-  <section class="relative w-full pt-28 md:pt-40 pb-10 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto group">
+  <section id="home" class="relative w-full pt-32 md:pt-44 pb-10 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto group">
     <div id="carousel"
       class="w-full h-[55vh] min-h-[380px] md:h-[75vh] md:min-h-[550px] max-h-[800px] relative rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-2xl border-4 border-white">
     </div>
@@ -126,7 +131,7 @@
   <section id="products" class="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
     <div class="w-full flex flex-col items-center justify-center text-center mb-12 md:mb-20 mx-auto">
       <span class="bg-orange-100 text-orange-600 font-extrabold tracking-widest uppercase text-sm md:text-base px-6 py-2 rounded-full mb-4 inline-block shadow-sm">100% Homemade</span>
-      <h2 class="fluid-h2 font-extrabold text-gray-900 drop-shadow-sm w-full text-center">Our Premium Menu</h2>
+      <h2 class="fluid-h2 font-extrabold text-gray-900 drop-shadow-sm w-full text-center">Mummy's Premium Menu</h2>
       <p class="fluid-p text-gray-500 mt-4 max-w-2xl w-full text-center mx-auto">Freshly made, perfectly spiced, and
         packed with love. Experience the true taste of premium home-cooked snacks.</p>
     </div>
@@ -143,7 +148,7 @@
 
       <div class="flex flex-col items-start text-left">
         <div class="mb-6">
-          <img src="logo.png" alt="Nastewala Logo" class="h-12 w-auto object-contain" onerror="this.src='https://via.placeholder.com/200x60?text=Nastewala'">
+          <img src="logo.png" alt="Nastewala Logo" class="h-14 w-auto object-contain" onerror="this.src='https://via.placeholder.com/200x60?text=Nastewala'">
         </div>
         <p class="fluid-p text-gray-500 font-medium max-w-md">Premium homemade snacks delivered fresh to your doorsteps.
           Quality, crunch, and authentic taste you can always trust.</p>
@@ -153,11 +158,11 @@
         <div class="w-full lg:w-auto text-left">
           <h3 class="text-xl md:text-2xl font-extrabold text-gray-900 mb-6">Quick Links</h3>
           <ul class="text-gray-500 space-y-4 font-semibold fluid-p">
-            <li><a href="#"
-                class="hover:text-orange-600 transition-colors flex items-center gap-3"><i class="fas fa-arrow-right text-sm text-orange-400"></i>
+            <li><a href="#home"
+                class="scroll-link hover:text-orange-600 transition-colors flex items-center gap-3"><i class="fas fa-arrow-right text-sm text-orange-400"></i>
                 Home</a></li>
             <li><a href="#products"
-                class="hover:text-orange-600 transition-colors flex items-center gap-3"><i class="fas fa-arrow-right text-sm text-orange-400"></i>
+                class="scroll-link hover:text-orange-600 transition-colors flex items-center gap-3"><i class="fas fa-arrow-right text-sm text-orange-400"></i>
                 Premium Collection</a></li>
           </ul>
         </div>
@@ -216,7 +221,7 @@
           <textarea id="cust-address" placeholder="Delivery Address" required rows="2" class="w-full bg-gray-50 text-base md:text-lg border border-gray-200 rounded-[1.5rem] px-5 py-3 md:px-6 md:py-4 focus:bg-white focus:border-orange-500 outline-none font-semibold transition-all shadow-inner resize-none"></textarea>
         </div>
         <button type="submit" class="w-full bg-gray-900 text-white font-extrabold py-4 md:py-5 rounded-full flex justify-center items-center gap-2 hover:bg-orange-600 hover:-translate-y-1 transition-all duration-300 text-lg md:text-xl mt-2 shadow-lg shadow-gray-900/20">
-                    Order via WhatsApp <i class="fab fa-whatsapp text-green-400 text-xl md:text-2xl"></i>
+                    Confirm Order <i class="fab fa-whatsapp text-green-400 text-xl md:text-2xl"></i>
                 </button>
       </form>
     </div>
@@ -226,7 +231,27 @@
     class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-[60] hidden transition-all duration-500 opacity-0"></div>
 
   <script>
-    const products = [
+    // --- CUSTOM FAST SCROLLING ---
+        document.querySelectorAll('.scroll-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    const headerOffset = 130; // Accounts for thicker header
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        });
+
+        const products = [
             { id: 'p1', name: 'Premium Kurkure', weight: '500g', price: 110, img: 'kurkure.jpg' },
             { id: 'p2', name: 'Crispy Nachos', weight: '500g', price: 110, img: 'nachos.jpg' },
             { id: 'p3', name: 'Spicy Soya Sticks', weight: '500g', price: 110, img: 'soya_stick.jpg' },
@@ -293,12 +318,34 @@
             slideInterval = setInterval(nextSlide, 4500); 
         }
 
+        // --- SMART PRODUCT CARDS (Add vs Quantity Toggle) ---
         const productGrid = document.getElementById('product-grid');
 
         function renderProducts() {
-            productGrid.innerHTML = products.map(p => `
+            productGrid.innerHTML = products.map(p => {
+                // Check if item is in cart
+                let cartItem = cart.find(item => item.id === p.id);
+                
+                // Dynamic Button UI Based on Cart State
+                let buttonUI = '';
+                if (cartItem) {
+                    // Item IS in cart -> Show Quantity Toggle (- 1 +)
+                    buttonUI = `
+                    <div class="flex items-center justify-between bg-orange-50 rounded-full p-1.5 border border-orange-200 mt-2 shadow-inner">
+                        <button onclick="changeCartQty('${p.id}', -1)" class="w-12 h-12 flex justify-center items-center bg-white text-gray-700 hover:text-white hover:bg-orange-500 rounded-full text-2xl font-bold transition-all shadow-sm border border-orange-100">-</button>
+                        <span class="font-black text-xl md:text-2xl w-10 text-center text-orange-600">${cartItem.qty}</span>
+                        <button onclick="changeCartQty('${p.id}', 1)" class="w-12 h-12 flex justify-center items-center bg-white text-gray-700 hover:text-white hover:bg-orange-500 rounded-full text-2xl font-bold transition-all shadow-sm border border-orange-100">+</button>
+                    </div>`;
+                } else {
+                    // Item NOT in cart -> Show "Add to Cart" Button
+                    buttonUI = `
+                    <button onclick="addSingleToCart('${p.id}')" class="w-full mt-2 bg-gray-900 hover:bg-orange-600 text-white font-extrabold text-lg md:text-xl py-4 rounded-full transition-all duration-300 shadow-md hover:shadow-glow flex justify-center items-center gap-3">
+                        Add to Cart <i class="fas fa-plus"></i>
+                    </button>`;
+                }
+
+                return `
                 <div class="bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-premium hover:shadow-premium-hover border border-gray-100 overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col group p-3">
-                    
                     <div class="relative overflow-hidden rounded-[1.5rem] md:rounded-[2rem]">
                         <img src="${p.img}" alt="${p.name}" class="w-full h-72 sm:h-80 lg:h-96 object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.src='https://via.placeholder.com/600x600?text=${p.name}'">
                         <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-sm text-gray-900 text-sm md:text-base font-extrabold px-5 py-2 rounded-full shadow-md">${p.weight}</div>
@@ -306,45 +353,20 @@
                     
                     <div class="p-6 md:p-8 pt-6 flex-1 flex flex-col">
                         <h3 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2 truncate">${p.name}</h3>
-                        <p class="text-3xl md:text-4xl font-black text-orange-600 mb-8">₹${p.price}</p>
+                        <p class="text-3xl md:text-4xl font-black text-orange-600 mb-6">₹${p.price}</p>
                         
                         <div class="mt-auto">
-                            <div class="flex items-center justify-between bg-gray-50 rounded-full p-2 mb-5 border border-gray-100">
-                                <button onclick="changeQtyUI('${p.id}', -1)" class="w-12 h-12 md:w-14 md:h-14 flex justify-center items-center text-gray-600 hover:text-white hover:bg-gray-900 rounded-full text-2xl md:text-3xl font-bold transition-all shadow-sm">-</button>
-                                <span id="qty-${p.id}" class="font-extrabold text-xl md:text-2xl w-10 md:w-12 text-center text-gray-900">1</span>
-                                <button onclick="changeQtyUI('${p.id}', 1)" class="w-12 h-12 md:w-14 md:h-14 flex justify-center items-center text-gray-600 hover:text-white hover:bg-gray-900 rounded-full text-2xl md:text-3xl font-bold transition-all shadow-sm">+</button>
-                            </div>
-                            
-                            <button onclick="addCardToCart('${p.id}')" class="w-full bg-gray-900 hover:bg-orange-600 text-white font-extrabold text-lg md:text-xl py-4 md:py-5 rounded-full transition-all duration-300 shadow-md hover:shadow-glow flex justify-center items-center gap-3">
-                                Add to Cart <i class="fas fa-shopping-basket"></i>
-                            </button>
+                            ${buttonUI}
                         </div>
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        function changeQtyUI(id, change) {
-            let qtySpan = document.getElementById(`qty-${id}`);
-            let newVal = parseInt(qtySpan.innerText) + change;
-            if(newVal >= 1) qtySpan.innerText = newVal;
-        }
-
-        function addSingleToCart(id) { processAddToCart(id, 1); }
-
-        function addCardToCart(id) {
-            let qty = parseInt(document.getElementById(`qty-${id}`).innerText);
-            processAddToCart(id, qty);
-            document.getElementById(`qty-${id}`).innerText = 1; 
-        }
-
-        function processAddToCart(id, qty) {
+        function addSingleToCart(id) { 
             let product = products.find(p => p.id === id);
-            let existingItem = cart.find(item => item.id === id);
-            
-            if(existingItem) existingItem.qty += qty;
-            else cart.push({ ...product, qty: qty });
-            
+            cart.push({ ...product, qty: 1 });
             updateCart();
             animateCartIcon();
         }
@@ -368,6 +390,10 @@
 
         function updateCart() {
             document.getElementById('cart-count').innerText = cart.reduce((tot, item) => tot + item.qty, 0);
+            
+            // Re-render product grid to update Add/-/+ buttons
+            renderProducts(); 
+            
             const cartItemsEl = document.getElementById('cart-items');
             const checkoutForm = document.getElementById('checkout-form');
             let totalAmount = 0;
@@ -429,6 +455,7 @@
             }
         }
 
+        // --- PROFESSIONAL WHATSAPP BILL FORMAT ---
         document.getElementById('checkout-form').addEventListener('submit', function(e) {
             e.preventDefault();
             if(cart.length === 0) return;
@@ -438,17 +465,29 @@
             const address = document.getElementById('cust-address').value;
             let totalAmount = 0;
             
-            let orderText = `*Ultra Premium Order - Nastewala* 🛍️\n\n`;
-            orderText += `*Customer Details:*\n👤 Name: ${name}\n📞 Contact: ${phone}\n📍 Address: ${address}\n\n`;
-            orderText += `*Order Summary:*\n`;
+            let orderText = `*==========================*\n`;
+            orderText += `    *NASTEWALA - ORDER BILL* \n`;
+            orderText += `*==========================*\n\n`;
+            
+            orderText += `*👤 CUSTOMER DETAILS:*\n`;
+            orderText += `*Name:* ${name}\n`;
+            orderText += `*Phone:* ${phone}\n`;
+            orderText += `*Address:* ${address}\n\n`;
+            
+            orderText += `*--------------------------*\n`;
+            orderText += `*📦 ORDER SUMMARY:*\n`;
             
             cart.forEach((item, i) => {
                 let itemTotal = item.price * item.qty;
                 totalAmount += itemTotal;
-                orderText += `${i + 1}. ${item.name} (${item.weight})\n   ${item.qty} x ₹${item.price} = ₹${itemTotal}\n`;
+                orderText += `*${i + 1}. ${item.name}* (${item.weight})\n`;
+                orderText += `    ${item.qty} x ₹${item.price} = *₹${itemTotal}*\n`;
             });
             
-            orderText += `\n🧾 *Total Amount Payable: ₹${totalAmount}*\n\nPlease confirm my premium order.`;
+            orderText += `*--------------------------*\n`;
+            orderText += `*🧾 TOTAL PAYABLE: ₹${totalAmount}*\n`;
+            orderText += `*==========================*\n\n`;
+            orderText += `Please confirm my order!`;
 
             const waLink = `https://wa.me/919825688425?text=${encodeURIComponent(orderText)}`;
             window.open(waLink, '_blank');
