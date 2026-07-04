@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nastewala | Ultra Premium Snacks</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+  <!-- Tailwind Custom Configuration -->
+  <script>
+    tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    boxShadow: {
+                        'premium': '0 20px 40px -15px rgba(0,0,0,0.05)',
+                        'premium-hover': '0 30px 60px -15px rgba(234,88,12,0.2)',
+                        'glow': '0 0 20px rgba(234,88,12,0.3)'
+                    }
+                }
+            }
+        }
+  </script>
+
+  <style>
+    body {
+      background-color: #f8fafc;
+      background-image:
+        radial-gradient(at 0% 0%, hsla(28, 100%, 74%, 0.1) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, hsla(355, 100%, 83%, 0.1) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, hsla(28, 100%, 74%, 0.1) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, hsla(355, 100%, 83%, 0.1) 0px, transparent 50%),
+        linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      scroll-behavior: smooth;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .fluid-h1 {
+      font-size: clamp(2.5rem, 5vw + 1rem, 5.5rem);
+      line-height: 1.1;
+    }
+
+    .fluid-h2 {
+      font-size: clamp(2rem, 4vw + 1rem, 4rem);
+      line-height: 1.2;
+    }
+
+    .fluid-p {
+      font-size: clamp(1rem, 1.5vw + 0.5rem, 1.25rem);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-bottom: 90px;
+      }
+    }
+  </style>
+</head>
+
+<body class="text-gray-800 relative min-h-screen antialiased selection:bg-orange-500 selection:text-white">
+
+  <!-- 1. Header (Centered Nav) -->
+  <div class="fixed w-full top-4 md:top-6 z-40 px-4 sm:px-6 lg:px-8 flex justify-center">
+    <header
+      class="w-full max-w-[1600px] bg-white/70 backdrop-blur-2xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-full px-6 py-3 md:py-4 flex justify-between items-center relative transition-all">
+
+      <a href="#" class="flex-1 flex justify-start items-center gap-3 group">
+        <img src="logo.png" alt="Nastewala Logo" class="h-10 md:h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://via.placeholder.com/150x50?text=Nastewala'">
+      </a>
+
+      <nav
+        class="hidden md:flex justify-center gap-12 font-bold text-gray-500 text-lg absolute left-1/2 -translate-x-1/2">
+        <a href="#" class="hover:text-orange-600 transition-colors">Home</a>
+        <a href="#products" class="hover:text-orange-600 transition-colors">Premium Collection</a>
+        <a href="#footer" class="hover:text-orange-600 transition-colors">Contact</a>
+      </nav>
+
+      <div class="flex-1 flex justify-end items-center gap-4">
+        <button onclick="toggleCart()" class="relative flex items-center justify-center bg-gray-900 text-white h-12 w-12 md:h-14 md:w-14 rounded-full hover:bg-orange-600 hover:shadow-glow hover:-translate-y-1 transition-all duration-300 group">
+                    <i class="fas fa-shopping-bag text-lg md:text-xl group-hover:scale-110 transition-transform"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] md:text-xs font-extrabold w-5 h-5 md:w-6 md:h-6 flex items-center justify-center rounded-full border-[3px] border-white shadow-sm">0</span>
+                </button>
+      </div>
+    </header>
+  </div>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <div class="md:hidden fixed bottom-5 left-1/2 -translate-x-1/2 w-[90%] sm:w-[80%] z-30">
+    <div
+      class="bg-gray-900/95 backdrop-blur-2xl rounded-full px-8 py-4 flex justify-between items-center shadow-[0_20px_40px_rgba(0,0,0,0.3)] border border-gray-700/50">
+      <a href="#" class="text-gray-400 hover:text-white flex flex-col items-center gap-1 transition-all">
+        <i class="fas fa-home text-xl"></i>
+        <span class="text-[10px] font-extrabold uppercase tracking-wider">Home</span>
+      </a>
+      <a href="#products" class="text-gray-400 hover:text-white flex flex-col items-center gap-1 transition-all">
+        <i class="fas fa-box-open text-xl"></i>
+        <span class="text-[10px] font-extrabold uppercase tracking-wider">Menu</span>
+      </a>
+      <a href="#footer" class="text-gray-400 hover:text-white flex flex-col items-center gap-1 transition-all">
+        <i class="fas fa-phone-alt text-xl scale-x-[-1]"></i>
+        <span class="text-[10px] font-extrabold uppercase tracking-wider">Contact</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 2. Hero Section -->
+  <section class="relative w-full pt-28 md:pt-40 pb-10 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto group">
+    <div id="carousel"
+      class="w-full h-[75vh] min-h-[550px] max-h-[800px] relative rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-2xl border-4 border-white">
+      <!-- Banners injected by JS -->
+    </div>
+  </section>
+
+  <!-- 3. Products Section -->
+  <section id="products" class="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+    <div class="text-center mb-12 md:mb-20 flex flex-col items-center">
+      <span class="bg-orange-100 text-orange-600 font-extrabold tracking-widest uppercase text-sm md:text-base px-6 py-2 rounded-full mb-4 inline-block shadow-sm">100% Homemade</span>
+      <h2 class="fluid-h2 font-extrabold text-gray-900 drop-shadow-sm">Mummy's Premium Menu</h2>
+      <p class="fluid-p text-gray-500 mt-4 max-w-2xl mx-auto">Freshly made, perfectly spiced, and packed with love.
+        Experience the true taste of premium home-cooked snacks.</p>
+    </div>
+
+    <div id="product-grid"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-10 lg:gap-14">
+      <!-- Products injected by JS -->
+    </div>
+  </section>
+
+  <!-- 4. Footer -->
+  <footer id="footer"
+    class="bg-white border-t-2 border-gray-100 mt-16 rounded-t-[3rem] md:rounded-t-[4rem] overflow-hidden">
+    <div
+      class="max-w-[1600px] mx-auto px-6 lg:px-16 py-16 md:py-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16">
+
+      <div class="flex flex-col items-start text-left">
+        <div class="mb-6">
+          <img src="logo.png" alt="Nastewala Logo" class="h-12 w-auto object-contain" onerror="this.src='https://via.placeholder.com/200x60?text=Nastewala'">
+        </div>
+        <p class="fluid-p text-gray-500 font-medium max-w-md">Premium homemade snacks delivered fresh to your doorsteps.
+          Quality, crunch, and authentic taste you can always trust.</p>
+      </div>
+
+      <div class="flex flex-col items-start text-left lg:items-center lg:text-center">
+        <div class="w-full lg:w-auto text-left">
+          <h3 class="text-xl md:text-2xl font-extrabold text-gray-900 mb-6">Quick Links</h3>
+          <ul class="text-gray-500 space-y-4 font-semibold fluid-p">
+            <li><a href="#"
+                class="hover:text-orange-600 transition-colors flex items-center gap-3"><i class="fas fa-arrow-right text-sm text-orange-400"></i>
+                Home</a></li>
+            <li><a href="#products"
+                class="hover:text-orange-600 transition-colors flex items-center gap-3"><i class="fas fa-arrow-right text-sm text-orange-400"></i>
+                Premium Collection</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-start text-left">
+        <h3 class="text-xl md:text-2xl font-extrabold text-gray-900 mb-6">Order Now</h3>
+        <p class="fluid-p text-gray-600 font-bold mb-6 flex items-center gap-3">
+          <i class="fas fa-phone-alt transform scale-x-[-1] bg-gray-50 border border-gray-200 p-3 rounded-full text-gray-900 shadow-sm"></i>
+          +91 98256 88425
+        </p>
+        <div class="w-full flex items-center justify-start">
+          <a href="https://wa.me/919825688425" target="_blank"
+            class="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#1ebe57] text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-green-500/30 hover:shadow-green-500/50 hover:-translate-y-1 transition-all duration-300 text-lg">
+            <i class="fab fa-whatsapp text-2xl"></i> Chat on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="bg-gray-50 py-6 border-t border-gray-100">
+      <div class="text-center text-gray-500 font-semibold text-sm md:text-base">
+        &copy; 2026 Nastewala. Made with <i class="fas fa-heart text-red-500 mx-1 animate-pulse"></i> in Surat.
+      </div>
+    </div>
+  </footer>
+
+  <!-- CART SIDEBAR -->
+  <div id="cart-sidebar"
+    class="fixed inset-y-0 right-0 w-full md:w-[480px] lg:w-[550px] bg-gray-50 backdrop-blur-3xl shadow-[0_0_50px_rgba(0,0,0,0.2)] transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] z-[70] flex flex-col md:rounded-l-[2.5rem] border-l border-white/80">
+
+    <!-- Sticky Header (Close Button Fixed) -->
+    <div
+      class="sticky top-0 z-20 px-6 md:px-8 py-6 flex justify-between items-center bg-white/95 backdrop-blur-md border-b border-gray-100 md:rounded-tl-[2.5rem]">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 flex items-center gap-3 md:gap-4">
+        <div class="p-2 md:p-3 bg-orange-100 text-orange-600 rounded-full">
+          <i class="fas fa-shopping-basket text-xl"></i></div>
+        Your Cart
+      </h2>
+      <button onclick="toggleCart()" class="text-gray-400 hover:text-red-500 hover:bg-red-50 text-3xl transition-all bg-gray-100 rounded-full w-12 h-12 md:w-14 md:h-14 flex items-center justify-center shadow-sm border border-gray-200">
+                <i class="fas fa-times"></i>
+            </button>
+    </div>
+
+    <!-- Cart Items Boxed Format -->
+    <div id="cart-items" class="flex-1 overflow-y-auto p-4 md:p-6 no-scrollbar space-y-4 md:space-y-5">
+      <!-- Items injected by JS -->
+    </div>
+
+    <!-- Checkout Form Bottom Sticky (Fixed extra padding issue here) -->
+    <div
+      class="sticky bottom-0 p-6 md:p-8 bg-white border-t border-gray-200 md:rounded-bl-[2.5rem] shadow-[0_-15px_30px_rgba(0,0,0,0.06)]">
+      <div class="flex justify-between items-center mb-6">
+        <span class="text-lg md:text-xl font-bold text-gray-500">Total</span>
+        <span id="cart-total" class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">₹0</span>
+      </div>
+
+      <form id="checkout-form" class="space-y-4 hidden">
+        <div class="space-y-3">
+          <input type="text" id="cust-name" placeholder="Full Name" required class="w-full bg-gray-50 text-base md:text-lg border border-gray-200 rounded-full px-5 py-3 md:px-6 md:py-4 focus:bg-white focus:border-orange-500 outline-none font-semibold transition-all shadow-inner">
+          <input type="tel" id="cust-phone" placeholder="Mobile Number" required class="w-full bg-gray-50 text-base md:text-lg border border-gray-200 rounded-full px-5 py-3 md:px-6 md:py-4 focus:bg-white focus:border-orange-500 outline-none font-semibold transition-all shadow-inner">
+          <textarea id="cust-address" placeholder="Delivery Address" required rows="2" class="w-full bg-gray-50 text-base md:text-lg border border-gray-200 rounded-[1.5rem] px-5 py-3 md:px-6 md:py-4 focus:bg-white focus:border-orange-500 outline-none font-semibold transition-all shadow-inner resize-none"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-gray-900 text-white font-extrabold py-4 md:py-5 rounded-full flex justify-center items-center gap-2 hover:bg-orange-600 hover:-translate-y-1 transition-all duration-300 text-lg md:text-xl mt-2 shadow-lg shadow-gray-900/20">
+                    Order via WhatsApp <i class="fab fa-whatsapp text-green-400 text-xl md:text-2xl"></i>
+                </button>
+      </form>
+    </div>
+  </div>
+
+  <div id="cart-overlay" onclick="toggleCart()"
+    class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-[60] hidden transition-all duration-500 opacity-0"></div>
+
+  <script>
+    const products = [
+            { id: 'p1', name: 'Premium Kurkure', weight: '500g', price: 110, img: 'kurkure.jpg' },
+            { id: 'p2', name: 'Crispy Nachos', weight: '500g', price: 110, img: 'nachos.jpg' },
+            { id: 'p3', name: 'Spicy Soya Sticks', weight: '500g', price: 110, img: 'soya_stick.jpg' },
+            { id: 'p4', name: 'Cheese Cheetos', weight: '500g', price: 110, img: 'cheetos.jpg' },
+            { id: 'p5', name: 'Potato Wafers', weight: '500g', price: 110, img: 'wafer.jpg' },
+            { id: 'p6', name: 'Mix Chevdo', weight: '500g', price: 110, img: 'chevdo.jpg' } 
+        ];
+
+        const banners = [
+            { img: 'banner1.jpg', tag: 'Bestseller', title: 'Crunchy Kurkure', desc: 'Mummy no special masalo, perfect tea-time companion.', price: '₹110', productId: 'p1' },
+            { img: 'banner2.jpg', tag: 'New Arrival', title: 'Cheesy Nachos', desc: 'Loaded with authentic cheese. Perfect crunch guaranteed.', price: '₹110', productId: 'p2' },
+            { img: 'banner3.jpg', tag: 'Spicy Delight', title: 'Soya Sticks', desc: 'Healthy, crunchy, and packed with traditional spices.', price: '₹110', productId: 'p3' }
+        ];
+
+        let cart = [];
+        let currentSlide = 0;
+        let slideInterval;
+
+        const carouselEl = document.getElementById('carousel');
+        
+        function renderBanners() {
+            carouselEl.innerHTML = banners.map((b, index) => `
+                <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}" id="slide-${index}">
+                    <img src="${b.img}" alt="Banner" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/1600x900?text=Premium+Banner+${index+1}'">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent flex items-end">
+                        <div class="p-6 md:p-16 lg:p-24 w-full lg:w-3/4 pb-12 md:pb-24">
+                            <span class="bg-orange-500 text-white text-xs md:text-sm font-extrabold px-5 md:px-6 py-2 rounded-full uppercase tracking-widest mb-4 md:mb-6 inline-block shadow-lg">${b.tag}</span>
+                            <h2 class="fluid-h1 font-extrabold text-white mb-3 md:mb-4 drop-shadow-lg">${b.title}</h2>
+                            <p class="fluid-p text-gray-200 font-medium mb-6 md:mb-10 max-w-2xl">${b.desc}</p>
+                            
+                            <div class="flex flex-wrap items-center gap-3 md:gap-6">
+                                <span class="text-3xl md:text-5xl lg:text-6xl text-white font-extrabold bg-white/20 backdrop-blur-md px-6 md:px-8 py-3 md:py-4 rounded-full border border-white/30 shadow-lg">${b.price}</span>
+                                <button onclick="addSingleToCart('${b.productId}')" class="bg-orange-600 hover:bg-orange-500 text-white text-base md:text-xl font-extrabold px-6 md:px-10 py-4 md:py-5 rounded-full flex items-center gap-2 md:gap-3 transition-all duration-300 shadow-glow hover:-translate-y-1">
+                                    Add to Cart <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showSlide(index) {
+            banners.forEach((_, i) => {
+                const slide = document.getElementById(`slide-${i}`);
+                if(i === index) {
+                    slide.classList.remove('opacity-0', 'z-0');
+                    slide.classList.add('opacity-100', 'z-10');
+                } else {
+                    slide.classList.remove('opacity-100', 'z-10');
+                    slide.classList.add('opacity-0', 'z-0');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % banners.length;
+            showSlide(currentSlide);
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 4500); 
+        }
+
+        const productGrid = document.getElementById('product-grid');
+
+        function renderProducts() {
+            productGrid.innerHTML = products.map(p => `
+                <div class="bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-premium hover:shadow-premium-hover border border-gray-100 overflow-hidden hover:-translate-y-2 transition-all duration-500 flex flex-col group p-3">
+                    
+                    <div class="relative overflow-hidden rounded-[1.5rem] md:rounded-[2rem]">
+                        <img src="${p.img}" alt="${p.name}" class="w-full h-72 sm:h-80 lg:h-96 object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.src='https://via.placeholder.com/600x600?text=${p.name}'">
+                        <div class="absolute top-4 right-4 bg-white/95 backdrop-blur-sm text-gray-900 text-sm md:text-base font-extrabold px-5 py-2 rounded-full shadow-md">${p.weight}</div>
+                    </div>
+                    
+                    <div class="p-6 md:p-8 pt-6 flex-1 flex flex-col">
+                        <h3 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2 truncate">${p.name}</h3>
+                        <p class="text-3xl md:text-4xl font-black text-orange-600 mb-8">₹${p.price}</p>
+                        
+                        <div class="mt-auto">
+                            <div class="flex items-center justify-between bg-gray-50 rounded-full p-2 mb-5 border border-gray-100">
+                                <button onclick="changeQtyUI('${p.id}', -1)" class="w-12 h-12 md:w-14 md:h-14 flex justify-center items-center text-gray-600 hover:text-white hover:bg-gray-900 rounded-full text-2xl md:text-3xl font-bold transition-all shadow-sm">-</button>
+                                <span id="qty-${p.id}" class="font-extrabold text-xl md:text-2xl w-10 md:w-12 text-center text-gray-900">1</span>
+                                <button onclick="changeQtyUI('${p.id}', 1)" class="w-12 h-12 md:w-14 md:h-14 flex justify-center items-center text-gray-600 hover:text-white hover:bg-gray-900 rounded-full text-2xl md:text-3xl font-bold transition-all shadow-sm">+</button>
+                            </div>
+                            
+                            <button onclick="addCardToCart('${p.id}')" class="w-full bg-gray-900 hover:bg-orange-600 text-white font-extrabold text-lg md:text-xl py-4 md:py-5 rounded-full transition-all duration-300 shadow-md hover:shadow-glow flex justify-center items-center gap-3">
+                                Add to Cart <i class="fas fa-shopping-basket"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function changeQtyUI(id, change) {
+            let qtySpan = document.getElementById(`qty-${id}`);
+            let newVal = parseInt(qtySpan.innerText) + change;
+            if(newVal >= 1) qtySpan.innerText = newVal;
+        }
+
+        function addSingleToCart(id) { processAddToCart(id, 1); }
+
+        function addCardToCart(id) {
+            let qty = parseInt(document.getElementById(`qty-${id}`).innerText);
+            processAddToCart(id, qty);
+            document.getElementById(`qty-${id}`).innerText = 1; 
+        }
+
+        function processAddToCart(id, qty) {
+            let product = products.find(p => p.id === id);
+            let existingItem = cart.find(item => item.id === id);
+            
+            if(existingItem) existingItem.qty += qty;
+            else cart.push({ ...product, qty: qty });
+            
+            updateCart();
+            animateCartIcon();
+        }
+
+        function animateCartIcon() {
+            const cartIconBtn = document.getElementById('cart-count').parentElement;
+            cartIconBtn.classList.add('scale-110', 'bg-orange-600', 'shadow-glow');
+            setTimeout(() => {
+                cartIconBtn.classList.remove('scale-110', 'bg-orange-600', 'shadow-glow');
+            }, 300);
+        }
+
+        function changeCartQty(id, change) {
+            let item = cart.find(i => i.id === id);
+            if(item) {
+                item.qty += change;
+                if(item.qty <= 0) cart = cart.filter(i => i.id !== id);
+                updateCart();
+            }
+        }
+
+        function updateCart() {
+            document.getElementById('cart-count').innerText = cart.reduce((tot, item) => tot + item.qty, 0);
+            const cartItemsEl = document.getElementById('cart-items');
+            const checkoutForm = document.getElementById('checkout-form');
+            let totalAmount = 0;
+
+            if(cart.length === 0) {
+                cartItemsEl.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-gray-400 mt-10 md:mt-20">
+                        <div class="w-24 h-24 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm border border-gray-100">
+                            <i class="fas fa-shopping-basket text-4xl md:text-6xl text-gray-200"></i>
+                        </div>
+                        <p class="font-bold text-xl md:text-2xl text-gray-400">Your cart is empty</p>
+                    </div>`;
+                checkoutForm.classList.add('hidden');
+                document.getElementById('cart-total').innerText = '₹0';
+                return;
+            }
+
+            checkoutForm.classList.remove('hidden');
+            cartItemsEl.innerHTML = cart.map(item => {
+                let itemTotal = item.price * item.qty;
+                totalAmount += itemTotal;
+                
+                return `
+                <div class="bg-white p-3 md:p-4 rounded-[1.5rem] md:rounded-[2rem] border border-gray-100 shadow-sm flex items-center gap-3 md:gap-4 transition-all hover:shadow-md">
+                    <img src="${item.img}" alt="${item.name}" class="w-20 h-20 md:w-24 md:h-24 object-cover rounded-xl md:rounded-2xl shadow-sm border border-gray-50 shrink-0" onerror="this.src='https://via.placeholder.com/150?text=IMG'">
+                    
+                    <div class="flex-1 min-w-0 flex flex-col justify-center">
+                        <h4 class="font-extrabold text-gray-900 text-lg md:text-xl truncate leading-tight">${item.name}</h4>
+                        <div class="text-gray-500 font-semibold text-xs md:text-sm bg-gray-50 self-start px-2 py-0.5 rounded-md mt-1 border border-gray-100">${item.weight}</div>
+                        <div class="text-orange-600 font-black text-lg md:text-xl mt-1">₹${itemTotal}</div>
+                    </div>
+                    
+                    <div class="flex flex-row items-center bg-gray-50 rounded-full border border-gray-200 p-1 shrink-0">
+                        <button onclick="changeCartQty('${item.id}', -1)" class="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full text-gray-600 hover:text-white hover:bg-gray-900 font-bold text-lg md:text-xl shadow-sm transition-colors flex items-center justify-center">-</button>
+                        <span class="w-8 md:w-10 text-center text-base md:text-lg font-extrabold text-gray-900">${item.qty}</span>
+                        <button onclick="changeCartQty('${item.id}', 1)" class="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full text-gray-600 hover:text-white hover:bg-gray-900 font-bold text-lg md:text-xl shadow-sm transition-colors flex items-center justify-center">+</button>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            document.getElementById('cart-total').innerText = `₹${totalAmount}`;
+        }
+
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('cart-overlay');
+            
+            if(sidebar.classList.contains('translate-x-full')) {
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+                document.body.style.overflow = 'hidden';
+            } else {
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 500);
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if(cart.length === 0) return;
+
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const address = document.getElementById('cust-address').value;
+            let totalAmount = 0;
+            
+            let orderText = `*Ultra Premium Order - Nastewala* 🛍️\n\n`;
+            orderText += `*Customer Details:*\n👤 Name: ${name}\n📞 Contact: ${phone}\n📍 Address: ${address}\n\n`;
+            orderText += `*Order Summary:*\n`;
+            
+            cart.forEach((item, i) => {
+                let itemTotal = item.price * item.qty;
+                totalAmount += itemTotal;
+                orderText += `${i + 1}. ${item.name} (${item.weight})\n   ${item.qty} x ₹${item.price} = ₹${itemTotal}\n`;
+            });
+            
+            orderText += `\n🧾 *Total Amount Payable: ₹${totalAmount}*\n\nPlease confirm my premium order.`;
+
+            const waLink = `https://wa.me/919825688425?text=${encodeURIComponent(orderText)}`;
+            window.open(waLink, '_blank');
+            
+            cart = [];
+            updateCart();
+            this.reset();
+            toggleCart();
+        });
+
+        // Initialize
+        renderBanners();
+        renderProducts();
+        resetInterval();
+        updateCart(); 
+
+  </script>
+</body>
+</html>
