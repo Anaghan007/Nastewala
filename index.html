@@ -7,7 +7,8 @@
   <title>Nastewala | Premium Retail & Wholesale Snacks</title>
 
   <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
@@ -21,11 +22,17 @@
     tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    },
                     boxShadow: {
                         'premium': '0 20px 40px -15px rgba(0,0,0,0.05)',
                         'premium-hover': '0 30px 60px -15px rgba(234,88,12,0.2)',
-                        'glow': '0 0 20px rgba(234,88,12,0.3)'
+                        'glow': '0 0 20px rgba(234,88,12,0.3)',
+                        'glow-lg': '0 0 35px rgba(234,88,12,0.4)',
+                    },
+                    aspectRatio: {
+                        '9/16': '9 / 16',
                     }
                 }
             }
@@ -69,10 +76,28 @@
       line-height: 1.6;
     }
 
+    /* Desktop right panel fluid title */
+    .fluid-title-desktop {
+      font-size: clamp(2rem, 3vw + 0.5rem, 3.5rem);
+      line-height: 1.1;
+    }
+
     @media (max-width: 768px) {
       footer {
         padding-bottom: 110px !important;
       }
+    }
+
+    /* Watermark cover styling */
+    .watermark-cover {
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.85) 100%);
+      border-bottom-right-radius: inherit;
+      pointer-events: none;
+    }
+
+    /* Smooth video fade for carousel */
+    .carousel-slide {
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     }
   </style>
 </head>
@@ -84,7 +109,8 @@
     <header
       class="w-full max-w-[1600px] bg-white/70 backdrop-blur-2xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-full px-6 py-4 md:py-5 flex justify-between items-center relative transition-all">
       <a href="#" class="flex-1 flex justify-start items-center gap-3 group">
-        <img src="logo.png" alt="Nastewala Logo" class="h-12 md:h-14 w-auto object-contain group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://via.placeholder.com/150x50?text=Nastewala'">
+        <img src="logo.png" alt="Nastewala Logo" class="h-12 md:h-14 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                onerror="this.src='https://via.placeholder.com/150x50?text=Nastewala'">
       </a>
       <nav
         class="hidden lg:flex justify-center gap-12 font-bold text-gray-500 text-lg absolute left-1/2 -translate-x-1/2 w-max">
@@ -129,10 +155,10 @@
     </div>
   </div>
 
-  <!-- 2. Hero Section (SPLIT LAYOUT FOR PC) -->
+  <!-- 2. Hero Section -->
   <section id="home" class="relative w-full pt-40 md:pt-48 pb-10 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto group">
     <div id="carousel"
-      class="w-full h-[65vh] min-h-[450px] md:h-[75vh] md:min-h-[550px] max-h-[800px] relative rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-2xl border-4 border-white bg-gray-900">
+      class="w-full h-[65vh] min-h-[450px] md:h-[75vh] md:min-h-[550px] max-h-[800px] relative rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-2xl border-4 border-white bg-black">
       <!-- Banners injected by JS -->
     </div>
   </section>
@@ -149,7 +175,8 @@
         <span class="bg-orange-500/20 text-orange-400 text-sm font-extrabold px-4 py-1.5 rounded-full uppercase tracking-widest mb-4 inline-block border border-orange-500/30">Business Mate</span>
         <h3 class="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">Retail Ane
           <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-300">Wholesale</span>
-          Banne Available</h3>
+          Banne Available
+        </h3>
         <p class="text-gray-300 text-lg md:text-xl font-medium">Tmari shop ke event mate bulk order joiye che? Wholesale
           bhav mate minimum 5 piece no order aapvo padse (₹550 per bundle). Ghar jevo swaad have bulk ma!</p>
       </div>
@@ -289,15 +316,18 @@
   <script>
     // --- FAST SCROLLING ---
         document.querySelectorAll('.scroll-link').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href').substring(1);
                 const targetElement = document.getElementById(targetId);
                 if (targetElement) {
-                    const headerOffset = 130; 
+                    const headerOffset = 130;
                     const elementPosition = targetElement.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
                 }
             });
         });
@@ -323,97 +353,161 @@
         ];
 
         let cart = [];
-        let currentMode = 'retail'; 
+        let currentMode = 'retail';
 
         // --- HERO CAROUSEL ---
         let currentSlide = 0;
         let slideInterval;
         const carouselEl = document.getElementById('carousel');
-        
+
+        function getTextContentHTML(b) {
+            // Returns the HTML for tag, title, and price boxes (used in both mobile overlay & desktop right panel)
+            return `
+                <span class="bg-orange-500 text-white text-xs md:text-sm font-extrabold px-5 md:px-6 py-2 rounded-full uppercase tracking-widest mb-3 md:mb-5 inline-block shadow-lg">${b.tag}</span>
+                <h2 class="fluid-h1 md:fluid-title-desktop font-extrabold text-white mb-4 md:mb-6 drop-shadow-lg leading-tight">${b.title}</h2>
+                <div class="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-3 md:gap-4 mt-2">
+                    <div class="flex items-center gap-3 md:gap-4 bg-white/20 backdrop-blur-md p-2 pl-5 md:pl-6 rounded-full border border-white/30 w-full sm:w-auto">
+                        <div class="flex flex-col items-start">
+                            <span class="text-[10px] md:text-xs text-gray-100 uppercase font-bold tracking-widest">Retail (1pc)</span>
+                            <span class="text-xl md:text-2xl lg:text-3xl text-white font-extrabold leading-none mt-1">₹${b.rPrice}</span>
+                        </div>
+                        <button onclick="addCardToCart('${b.productId}', 'retail')" class="bg-orange-500 hover:bg-orange-400 text-white text-sm md:text-base font-extrabold px-5 md:px-6 py-2.5 md:py-3 rounded-full transition-all ml-auto whitespace-nowrap">
+                            Add
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-3 md:gap-4 bg-orange-600/30 backdrop-blur-md p-2 pl-5 md:pl-6 rounded-full border border-orange-500/40 w-full sm:w-auto">
+                        <div class="flex flex-col items-start">
+                            <span class="text-[10px] md:text-xs text-orange-100 uppercase font-bold tracking-widest">Wholesale (5pcs)</span>
+                            <span class="text-xl md:text-2xl lg:text-3xl text-white font-extrabold leading-none mt-1">₹${b.wPrice}</span>
+                        </div>
+                        <button onclick="addCardToCart('${b.productId}', 'wholesale')" class="bg-gray-100 hover:bg-white text-gray-900 text-sm md:text-base font-extrabold px-5 md:px-6 py-2.5 md:py-3 rounded-full transition-all ml-auto whitespace-nowrap shadow-sm">
+                            Add Bulk
+                        </button>
+                    </div>
+                </div>`;
+        }
+
         function renderBanners() {
             carouselEl.innerHTML = banners.map((b, index) => {
-                
-                // Smart Watermark Box to hide Gemini Logo
-                let mediaTag = b.type === 'video' 
-                    ? `<div class="relative w-full h-full bg-black flex justify-center items-center">
-                         <video src="${b.src}" autoplay loop playsinline class="w-full h-full object-contain"></video>
-                         <!-- Custom Nastewala Watermark covering bottom right -->
-                         <div class="absolute bottom-4 right-4 w-[90px] h-[30px] bg-black/90 backdrop-blur-md z-20 rounded-md border border-gray-800 flex items-center justify-center shadow-lg">
-                            <span class="text-[10px] text-orange-500 font-extrabold uppercase tracking-widest">Nastewala</span>
-                         </div>
-                       </div>` 
-                    : `<div class="relative w-full h-full bg-black flex justify-center items-center">
-                         <img src="${b.src}" alt="Banner" class="w-full h-full object-contain" onerror="this.src='https://via.placeholder.com/600x900?text=Banner+${index+1}'">
-                       </div>`;
+                let mediaElement = '';
+                let watermarkCoverHTML =
+                    '<div class="watermark-cover absolute bottom-0 right-0 w-16 md:w-20 h-10 md:h-12 z-20 rounded-tl-xl"></div>';
+
+                if (b.type === 'video') {
+                    // Video element used in both mobile and desktop layouts
+                    mediaElement = `
+                    <video src="${b.src}" autoplay playsinline loop
+                        class="w-full h-full object-cover md:object-contain"
+                        preload="auto"
+                        onerror="this.style.display='none'; this.nextElementSibling?.style.display='flex';">
+                    </video>
+                    <div class="hidden w-full h-full bg-gray-800 items-center justify-center text-gray-400 text-sm font-semibold" style="display:none;">
+                        <span>Video Loading...</span>
+                    </div>`;
+                } else {
+                    // Image element
+                    mediaElement = `
+                    <img src="${b.src}" alt="${b.title}"
+                        class="w-full h-full object-cover md:object-contain"
+                        onerror="this.src='https://via.placeholder.com/800x1200?text=${encodeURIComponent(b.title)}'">`;
+                }
 
                 return `
-                <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out flex flex-col md:flex-row bg-gray-900 ${index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}" id="slide-${index}">
-                    
-                    <!-- LEFT SIDE (Media) -> Desktop 40% width, Mobile 100% full background -->
-                    <div class="absolute inset-0 md:relative md:w-[40%] lg:w-[35%] md:h-full z-0 bg-black border-r border-gray-800">
-                        ${mediaTag}
-                    </div>
-                    
-                    <!-- RIGHT SIDE (Content) -> Desktop 60% width, Mobile overlay -->
-                    <div class="absolute inset-0 md:relative md:w-[60%] lg:w-[65%] flex flex-col justify-end md:justify-center p-6 md:p-12 lg:p-20 z-10 bg-gradient-to-t from-black/90 via-gray-900/70 to-transparent md:bg-none md:bg-gray-900">
-                        
-                        <div class="pb-12 md:pb-0 w-full">
-                            <span class="bg-orange-500 text-white text-xs md:text-sm font-extrabold px-5 md:px-6 py-2 rounded-full uppercase tracking-widest mb-4 inline-block shadow-lg">${b.tag}</span>
-                            
-                            <h2 class="fluid-h1 font-extrabold text-white mb-6 drop-shadow-lg leading-tight">${b.title}</h2>
-                            
-                            <div class="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-4 md:gap-6 mt-2">
-                                <div class="flex items-center gap-4 bg-white/10 backdrop-blur-md p-2 pl-6 rounded-full border border-white/20 w-full sm:w-auto">
-                                    <div class="flex flex-col items-start">
-                                        <span class="text-[10px] md:text-xs text-gray-300 uppercase font-bold tracking-widest">Retail (1pc)</span>
-                                        <span class="text-2xl md:text-3xl text-white font-extrabold leading-none mt-1">₹${b.rPrice}</span>
-                                    </div>
-                                    <button onclick="addCardToCart('${b.productId}', 'retail')" class="bg-orange-500 hover:bg-orange-400 text-white text-sm md:text-base font-extrabold px-6 py-3 rounded-full transition-all ml-auto">
-                                        Add 
-                                    </button>
-                                </div>
+                <div class="carousel-slide absolute inset-0 ${index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}" id="slide-${index}">
 
-                                <div class="flex items-center gap-4 bg-orange-600/20 backdrop-blur-md p-2 pl-6 rounded-full border border-orange-500/30 w-full sm:w-auto">
-                                    <div class="flex flex-col items-start">
-                                        <span class="text-[10px] md:text-xs text-orange-200 uppercase font-bold tracking-widest">Wholesale (5pcs)</span>
-                                        <span class="text-2xl md:text-3xl text-white font-extrabold leading-none mt-1">₹${b.wPrice}</span>
-                                    </div>
-                                    <button onclick="addCardToCart('${b.productId}', 'wholesale')" class="bg-gray-100 hover:bg-white text-gray-900 text-sm md:text-base font-extrabold px-6 py-3 rounded-full transition-all ml-auto shadow-sm">
-                                        Add Bulk
-                                    </button>
-                                </div>
+                    <!-- ========== MOBILE LAYOUT (md:hidden) ========== -->
+                    <div class="md:hidden absolute inset-0">
+                        <div class="absolute inset-0">
+                            ${mediaElement}
+                            ${b.type === 'video' ? watermarkCoverHTML : ''}
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent flex items-end">
+                            <div class="p-6 pb-16 md:pb-24 w-full">
+                                ${getTextContentHTML(b)}
                             </div>
                         </div>
-
                     </div>
-                </div>
-                `;
+
+                    <!-- ========== DESKTOP LAYOUT (hidden md:flex) ========== -->
+                    <div class="hidden md:flex w-full h-full flex-row">
+                        <!-- Left 50%: 9:16 Media -->
+                        <div class="w-1/2 h-full flex items-center justify-center bg-black relative overflow-hidden">
+                            <div class="aspect-[9/16] h-full relative flex items-center justify-center">
+                                ${mediaElement}
+                                ${b.type === 'video' ? watermarkCoverHTML : ''}
+                            </div>
+                        </div>
+                        <!-- Right 50%: Content Panel -->
+                        <div class="w-1/2 h-full bg-gradient-to-br from-gray-900 to-gray-800 flex flex-col justify-center items-start p-8 lg:p-12 xl:p-16">
+                            <div class="w-full max-w-lg">
+                                ${getTextContentHTML(b)}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>`;
             }).join('');
         }
 
         function showSlide(index) {
+            // Pause all videos in the carousel
+            carouselEl.querySelectorAll('video').forEach(v => {
+                v.pause();
+                v.currentTime = 0;
+            });
+
             banners.forEach((_, i) => {
                 const slide = document.getElementById(`slide-${i}`);
-                if(i === index) { slide.classList.remove('opacity-0', 'z-0'); slide.classList.add('opacity-100', 'z-10'); } 
-                else { slide.classList.remove('opacity-100', 'z-10'); slide.classList.add('opacity-0', 'z-0'); }
+                if (i === index) {
+                    slide.classList.remove('opacity-0', 'z-0');
+                    slide.classList.add('opacity-100', 'z-10');
+                } else {
+                    slide.classList.remove('opacity-100', 'z-10');
+                    slide.classList.add('opacity-0', 'z-0');
+                }
             });
+
+            // Attempt to play videos in the active slide (audio on)
+            const activeSlide = document.getElementById(`slide-${index}`);
+            if (activeSlide) {
+                activeSlide.querySelectorAll('video').forEach(v => {
+                    v.currentTime = 0;
+                    v.play().catch(err => {
+                        // Browser may block autoplay with sound; video will still display
+                        console.log('Autoplay with sound may be blocked by browser:', err
+                            .message);
+                    });
+                });
+            }
         }
-        function nextSlide() { currentSlide = (currentSlide + 1) % banners.length; showSlide(currentSlide); }
-        // Changed interval to 10.5 seconds (10500ms)
-        function resetInterval() { clearInterval(slideInterval); slideInterval = setInterval(nextSlide, 10500); }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % banners.length;
+            showSlide(currentSlide);
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            // 10-second interval for full video playback
+            slideInterval = setInterval(nextSlide, 10000);
+        }
 
         // --- RETAIL / WHOLESALE TOGGLE ---
         function setMode(mode) {
             currentMode = mode;
             const btnR = document.getElementById('btn-retail');
             const btnW = document.getElementById('btn-wholesale');
-            
-            if(mode === 'retail') {
-                btnR.className = 'flex-1 sm:flex-none px-6 md:px-10 py-3 md:py-4 rounded-full font-extrabold text-sm md:text-lg transition-all duration-300 bg-gray-900 text-white shadow-md z-10 relative';
-                btnW.className = 'flex-1 sm:flex-none px-6 md:px-10 py-3 md:py-4 rounded-full font-extrabold text-sm md:text-lg transition-all duration-300 bg-transparent text-gray-500 hover:text-gray-900 z-10 relative';
+
+            if (mode === 'retail') {
+                btnR.className =
+                    'flex-1 sm:flex-none px-6 md:px-10 py-3 md:py-4 rounded-full font-extrabold text-sm md:text-lg transition-all duration-300 bg-gray-900 text-white shadow-md z-10 relative';
+                btnW.className =
+                    'flex-1 sm:flex-none px-6 md:px-10 py-3 md:py-4 rounded-full font-extrabold text-sm md:text-lg transition-all duration-300 bg-transparent text-gray-500 hover:text-gray-900 z-10 relative';
             } else {
-                btnW.className = 'flex-1 sm:flex-none px-6 md:px-10 py-3 md:py-4 rounded-full font-extrabold text-sm md:text-lg transition-all duration-300 bg-gray-900 text-white shadow-md z-10 relative';
-                btnR.className = 'flex-1 sm:flex-none px-6 md:px-10 py-3 md:py-4 rounded-full font-extrabold text-sm md:text-lg transition-all duration-300 bg-transparent text-gray-500 hover:text-gray-900 z-10 relative';
+                btnW.className =
+                    'flex-1 sm:flex-none px-6 md:px-10 py-3 md:py-4 rounded-full font-extrabold text-sm md:text-lg transition-all duration-300 bg-gray-900 text-white shadow-md z-10 relative';
+                btnR.className =
+                    'flex-1 sm:flex-none px-6 md:px-10 py-3 md:py-4 rounded-full font-extrabold text-sm md:text-lg transition-all duration-300 bg-transparent text-gray-500 hover:text-gray-900 z-10 relative';
             }
             renderProducts();
         }
@@ -424,12 +518,12 @@
             productGrid.innerHTML = products.map(p => {
                 let uniqueId = `${p.id}-${currentMode}`;
                 let cartItem = cart.find(item => item.uniqueId === uniqueId);
-                
+
                 let pPrice = currentMode === 'retail' ? p.rPrice : p.wPrice;
                 let pWeight = currentMode === 'retail' ? p.rWeight : p.wWeight;
-                let badgeUI = currentMode === 'retail' 
-                    ? `<span class="bg-white/95 text-gray-900 text-xs md:text-sm font-extrabold px-4 py-1.5 rounded-full shadow-md">Retail: ${pWeight}</span>`
-                    : `<span class="bg-orange-500/95 text-white text-xs md:text-sm font-extrabold px-4 py-1.5 rounded-full shadow-md">Bulk: ${pWeight}</span>`;
+                let badgeUI = currentMode === 'retail' ?
+                    `<span class="bg-white/95 text-gray-900 text-xs md:text-sm font-extrabold px-4 py-1.5 rounded-full shadow-md">Retail: ${pWeight}</span>` :
+                    `<span class="bg-orange-500/95 text-white text-xs md:text-sm font-extrabold px-4 py-1.5 rounded-full shadow-md">Bulk: ${pWeight}</span>`;
 
                 let buttonUI = '';
                 if (cartItem) {
@@ -452,29 +546,26 @@
                         <img src="${p.img}" alt="${p.name}" class="w-full h-72 sm:h-80 lg:h-96 object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.src='https://via.placeholder.com/600x600?text=${p.name}'">
                         <div class="absolute top-4 right-4">${badgeUI}</div>
                     </div>
-                    
                     <div class="p-6 md:p-8 pt-6 flex-1 flex flex-col">
                         <h3 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2 truncate">${p.name}</h3>
                         <p class="text-3xl md:text-4xl font-black text-orange-600 mb-6">₹${pPrice}</p>
-                        
                         <div class="mt-auto">
                             ${buttonUI}
                         </div>
                     </div>
-                </div>
-                `;
+                </div>`;
             }).join('');
         }
 
         function addCardToCart(baseId, mode) {
             let product = products.find(p => p.id === baseId);
             let uniqueId = `${baseId}-${mode}`;
-            
+
             let pPrice = mode === 'retail' ? product.rPrice : product.wPrice;
             let pWeight = mode === 'retail' ? product.rWeight : product.wWeight;
-            
+
             let existing = cart.find(item => item.uniqueId === uniqueId);
-            if(existing) {
+            if (existing) {
                 existing.qty += 1;
             } else {
                 cart.push({
@@ -495,27 +586,29 @@
         function animateCartIcon() {
             const cartIconBtn = document.getElementById('cart-count').parentElement;
             cartIconBtn.classList.add('scale-110', 'bg-orange-600', 'shadow-glow');
-            setTimeout(() => { cartIconBtn.classList.remove('scale-110', 'bg-orange-600', 'shadow-glow'); }, 300);
+            setTimeout(() => {
+                cartIconBtn.classList.remove('scale-110', 'bg-orange-600', 'shadow-glow');
+            }, 300);
         }
 
         function changeCartQty(uniqueId, change) {
             let item = cart.find(i => i.uniqueId === uniqueId);
-            if(item) {
+            if (item) {
                 item.qty += change;
-                if(item.qty <= 0) cart = cart.filter(i => i.uniqueId !== uniqueId);
+                if (item.qty <= 0) cart = cart.filter(i => i.uniqueId !== uniqueId);
                 updateCart();
             }
         }
 
         function updateCart() {
             document.getElementById('cart-count').innerText = cart.reduce((tot, item) => tot + item.qty, 0);
-            renderProducts(); 
-            
+            renderProducts();
+
             const cartItemsEl = document.getElementById('cart-items');
             const checkoutForm = document.getElementById('checkout-form');
             let totalAmount = 0;
 
-            if(cart.length === 0) {
+            if (cart.length === 0) {
                 cartItemsEl.innerHTML = `
                     <div class="h-full flex flex-col items-center justify-center text-gray-400 mt-10 md:mt-20">
                         <div class="w-24 h-24 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm border border-gray-100">
@@ -532,28 +625,25 @@
             cartItemsEl.innerHTML = cart.map(item => {
                 let itemTotal = item.price * item.qty;
                 totalAmount += itemTotal;
-                
-                let modeBadge = item.modeType === 'retail' 
-                    ? `<span class="text-gray-500 font-semibold text-[10px] md:text-xs bg-gray-100 px-2 py-0.5 rounded-md mt-1 border border-gray-200">Retail (${item.weight})</span>`
-                    : `<span class="text-orange-600 font-extrabold text-[10px] md:text-xs bg-orange-100 px-2 py-0.5 rounded-md mt-1 border border-orange-200">Wholesale (${item.weight})</span>`;
-                
+
+                let modeBadge = item.modeType === 'retail' ?
+                    `<span class="text-gray-500 font-semibold text-[10px] md:text-xs bg-gray-100 px-2 py-0.5 rounded-md mt-1 border border-gray-200">Retail (${item.weight})</span>` :
+                    `<span class="text-orange-600 font-extrabold text-[10px] md:text-xs bg-orange-100 px-2 py-0.5 rounded-md mt-1 border border-orange-200">Wholesale (${item.weight})</span>`;
+
                 return `
                 <div class="bg-white p-3 md:p-4 rounded-[1.5rem] md:rounded-[2rem] border border-gray-100 shadow-sm flex items-center gap-3 md:gap-4 transition-all hover:shadow-md">
                     <img src="${item.img}" alt="${item.name}" class="w-20 h-20 md:w-24 md:h-24 object-cover rounded-xl md:rounded-2xl shadow-sm border border-gray-50 shrink-0" onerror="this.src='https://via.placeholder.com/150?text=IMG'">
-                    
                     <div class="flex-1 min-w-0 flex flex-col justify-center items-start">
                         <h4 class="font-extrabold text-gray-900 text-lg md:text-xl truncate leading-tight w-full">${item.name}</h4>
                         ${modeBadge}
                         <div class="text-gray-900 font-black text-lg md:text-xl mt-1">₹${itemTotal}</div>
                     </div>
-                    
                     <div class="flex flex-row items-center bg-gray-50 rounded-full border border-gray-200 p-1 shrink-0">
                         <button onclick="changeCartQty('${item.uniqueId}', -1)" class="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full text-gray-600 hover:text-white hover:bg-gray-900 font-bold text-lg md:text-xl shadow-sm transition-colors flex items-center justify-center">-</button>
                         <span class="w-8 md:w-10 text-center text-base md:text-lg font-extrabold text-gray-900">${item.qty}</span>
                         <button onclick="changeCartQty('${item.uniqueId}', 1)" class="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full text-gray-600 hover:text-white hover:bg-gray-900 font-bold text-lg md:text-xl shadow-sm transition-colors flex items-center justify-center">+</button>
                     </div>
-                </div>
-                `;
+                </div>`;
             }).join('');
 
             document.getElementById('cart-total').innerText = `₹${totalAmount}`;
@@ -562,8 +652,8 @@
         function toggleCart() {
             const sidebar = document.getElementById('cart-sidebar');
             const overlay = document.getElementById('cart-overlay');
-            
-            if(sidebar.classList.contains('translate-x-full')) {
+
+            if (sidebar.classList.contains('translate-x-full')) {
                 sidebar.classList.remove('translate-x-full');
                 overlay.classList.remove('hidden');
                 setTimeout(() => overlay.classList.remove('opacity-0'), 10);
@@ -576,37 +666,34 @@
             }
         }
 
-        // WhatsApp Checkout text in Gujlish
+        // WhatsApp Checkout
         document.getElementById('checkout-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            if(cart.length === 0) return;
+            if (cart.length === 0) return;
 
             const name = document.getElementById('cust-name').value;
             const phone = document.getElementById('cust-phone').value;
             const address = document.getElementById('cust-address').value;
             let totalAmount = 0;
-            
+
             let orderText = `*==========================*\n`;
             orderText += `    *NASTEWALA - ORDER BILL* \n`;
             orderText += `*==========================*\n\n`;
-            
             orderText += `*👤 CUSTOMER NI VIGAT:*\n`;
             orderText += `*Naam:* ${name}\n`;
             orderText += `*Phone:* ${phone}\n`;
             orderText += `*Address:* ${address}\n\n`;
-            
             orderText += `*--------------------------*\n`;
             orderText += `*📦 ORDER NI VIGAT:*\n`;
-            
+
             cart.forEach((item, i) => {
                 let itemTotal = item.price * item.qty;
                 totalAmount += itemTotal;
                 let modeTag = item.modeType === 'wholesale' ? '[WHOLESALE]' : '[RETAIL]';
-                
-                orderText += `*${i + 1}. ${item.name}* ${modeTag}\n`;
-                orderText += `    (${item.weight}) : ${item.qty} x ₹${item.price} = *₹${itemTotal}*\n`;
+                orderText +=
+                    `*${i + 1}. ${item.name}* ${modeTag}\n    (${item.weight}) : ${item.qty} x ₹${item.price} = *₹${itemTotal}*\n`;
             });
-            
+
             orderText += `*--------------------------*\n`;
             orderText += `*🧾 TOTAL BILL: ₹${totalAmount}*\n`;
             orderText += `*==========================*\n\n`;
@@ -614,18 +701,32 @@
 
             const waLink = `https://wa.me/919825688425?text=${encodeURIComponent(orderText)}`;
             window.open(waLink, '_blank');
-            
+
             cart = [];
             updateCart();
             this.reset();
             toggleCart();
         });
 
-        // Initialize
+        // --- INITIALIZE ---
         renderBanners();
-        setMode('retail'); 
+        setMode('retail');
+        showSlide(0);
         resetInterval();
 
+        // --- Attempt to play first video with sound after user interaction ---
+        let audioUnlocked = false;
+        document.addEventListener('click', function unlockAudio() {
+            if (audioUnlocked) return;
+            audioUnlocked = true;
+            const activeSlide = document.getElementById(`slide-${currentSlide}`);
+            if (activeSlide) {
+                activeSlide.querySelectorAll('video').forEach(v => {
+                    v.muted = false;
+                    v.play().catch(() => {});
+                });
+            }
+        }, { once: false });
   </script>
 </body>
 </html>
