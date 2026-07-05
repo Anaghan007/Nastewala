@@ -102,10 +102,9 @@
         </div>
     </div>
 
-    <!-- 2. Hero Section (Updated for 50/50 Layout) -->
+    <!-- 2. Hero Section (Full Image Layout) -->
     <section id="home" class="relative w-full pt-40 md:pt-48 pb-10 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto group">
-        <!-- Main Carousel Container -->
-        <div id="carousel" class="w-full h-[85vh] min-h-[600px] md:h-[650px] relative rounded-[2.5rem] md:rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white bg-white">
+        <div id="carousel" class="w-full h-[65vh] min-h-[450px] md:h-[75vh] md:min-h-[550px] max-h-[800px] relative rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-2xl border-4 border-white bg-gray-900">
             <!-- Banners injected by JS -->
         </div>
     </section>
@@ -134,6 +133,7 @@
 
     <!-- 4. Products Section -->
     <section id="products" class="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+        
         <div class="w-full flex flex-col items-center justify-center text-center mb-10 mx-auto">
             <h2 class="fluid-h2 font-extrabold text-gray-900 drop-shadow-sm w-full text-center mb-4">Amaru Premium Menu</h2>
             <p class="fluid-p text-gray-500 max-w-2xl w-full text-center mx-auto mb-8">Niche thi tmari jarurat mujab Retail ke Wholesale select karo ane pricing jovo.</p>
@@ -196,6 +196,7 @@
 
     <!-- CART SIDEBAR -->
     <div id="cart-sidebar" class="fixed inset-y-0 right-0 w-full md:w-[480px] lg:w-[550px] bg-gray-50 backdrop-blur-3xl shadow-[0_0_50px_rgba(0,0,0,0.2)] transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] z-[70] flex flex-col md:rounded-l-[2.5rem] border-l border-white/80">
+        
         <div class="sticky top-0 z-20 px-6 md:px-8 py-6 flex justify-between items-center bg-white/95 backdrop-blur-md border-b border-gray-100 md:rounded-tl-[2.5rem]">
             <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 flex items-center gap-3 md:gap-4">
                 <div class="p-2 md:p-3 bg-orange-100 text-orange-600 rounded-full">
@@ -256,77 +257,57 @@
             { id: 'p4', name: 'Makai Wafer', rWeight: '500g', wWeight: 'Pack of 5', rPrice: 110, wPrice: 550, img: 'makaiwafer.png' }
         ];
 
-        // --- BANNER SEQUENCE (Video -> Image) ---
+        // --- BANNERS ARRAY (Only Images) ---
         const banners = [
-            { type: 'video', src: 'joysticks_video.mp4', tag: 'Trending', title: 'Joy Sticks', rPrice: 110, wPrice: 550, productId: 'p1' },
-            { type: 'image', src: 'joysticks.png', tag: 'Bestseller', title: 'Joy Sticks', rPrice: 110, wPrice: 550, productId: 'p1' },
-            { type: 'video', src: 'bingo_video.mp4', tag: 'Customer Choice', title: 'Bingo', rPrice: 110, wPrice: 550, productId: 'p2' },
-            { type: 'image', src: 'bingo.png', tag: 'New Arrival', title: 'Bingo', rPrice: 110, wPrice: 550, productId: 'p2' },
-            { type: 'video', src: 'crispybites_video.mp4', tag: 'Spicy', title: 'Crispy Bites', rPrice: 110, wPrice: 550, productId: 'p3' },
-            { type: 'image', src: 'crispybites.png', tag: 'Must Try', title: 'Crispy Bites', rPrice: 110, wPrice: 550, productId: 'p3' },
-            { type: 'video', src: 'makaiwafer_video.mp4', tag: 'Chrunchy', title: 'Makai Wafer', rPrice: 110, wPrice: 550, productId: 'p4' },
-            { type: 'image', src: 'makaiwafer.png', tag: 'Must Try', title: 'Makai Wafer', rPrice: 110, wPrice: 550, productId: 'p4' }
+            { src: 'joysticks.png', tag: 'Bestseller', title: 'Joy Sticks', rPrice: 110, wPrice: 550, productId: 'p1' },
+            { src: 'bingo.png', tag: 'Customer Choice', title: 'Bingo', rPrice: 110, wPrice: 550, productId: 'p2' },
+            { src: 'crispybites.png', tag: 'Spicy', title: 'Crispy Bites', rPrice: 110, wPrice: 550, productId: 'p3' },
+            { src: 'makaiwafer.png', tag: 'Chrunchy', title: 'Must Try', rPrice: 110, wPrice: 550, productId: 'p4' }
         ];
 
         let cart = [];
         let currentMode = 'retail'; 
 
-        // --- HERO CAROUSEL 50/50 LAYOUT & TIMING LOGIC ---
+        // --- HERO CAROUSEL ---
         let currentSlide = 0;
-        let slideTimer;
+        let slideInterval;
         const carouselEl = document.getElementById('carousel');
         
         function renderBanners() {
             carouselEl.innerHTML = banners.map((b, index) => {
-                
-                let mediaElement = '';
-                if (b.type === 'video') {
-                    // Note: No 'muted' attribute! Video plays with sound. 
-                    // object-contain preserves 9:16 aspect ratio perfectly without cropping.
-                    mediaElement = `
-                        <video id="vid-${index}" src="${b.src}" playsinline class="w-full h-full object-contain scale-[1.02]"></video>
-                        <!-- Black overlay corner to hide Gemini Watermark neatly without cutting main video -->
-                        <div class="absolute bottom-2 right-2 w-16 h-8 bg-black z-20 rounded shadow-sm opacity-90 blur-[2px]"></div>
-                    `;
-                } else {
-                    mediaElement = `<img src="${b.src}" alt="${b.title}" class="w-full h-full object-contain scale-[1.02]" onerror="this.src='https://via.placeholder.com/600x900?text=Banner+${index+1}'">`;
-                }
-
                 return `
-                <div class="absolute inset-0 transition-opacity duration-700 ease-in-out flex flex-col md:flex-row w-full h-full ${index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}" id="slide-${index}">
+                <div class="absolute inset-0 transition-opacity duration-700 ease-in-out ${index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}" id="slide-${index}">
+                    <!-- Object-cover with bottom gradient to ensure text readability -->
+                    <img src="${b.src}" alt="${b.title}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/1600x900?text=Banner+${index+1}'">
                     
-                    <!-- Left Side: 50% MEDIA (Video or Image) -->
-                    <div class="w-full md:w-1/2 h-[50%] md:h-full bg-black relative flex justify-center items-center overflow-hidden">
-                        ${mediaElement}
-                    </div>
-
-                    <!-- Right Side: 50% TEXT DETAILS -->
-                    <div class="w-full md:w-1/2 h-[50%] md:h-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex flex-col justify-center items-start p-6 md:p-12 lg:p-20 relative shadow-inner">
-                        <span class="bg-orange-500 text-white text-xs md:text-sm font-extrabold px-5 py-2 rounded-full uppercase tracking-widest mb-4 shadow-lg">${b.tag}</span>
-                        
-                        <h2 class="fluid-h1 font-extrabold text-white mb-6 drop-shadow-lg leading-tight">${b.title}</h2>
-                        
-                        <div class="flex flex-col w-full gap-4 mt-2">
-                            <!-- Retail Detail -->
-                            <div class="flex items-center justify-between bg-white/10 backdrop-blur-md p-3 pl-6 rounded-[2rem] border border-white/20 w-full sm:w-[90%] md:w-full lg:w-[90%]">
-                                <div class="flex flex-col items-start">
-                                    <span class="text-[10px] md:text-xs text-gray-300 uppercase font-bold tracking-widest">Retail (1pc)</span>
-                                    <span class="text-2xl md:text-3xl text-white font-extrabold leading-none mt-1">₹${b.rPrice}</span>
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent flex items-end">
+                        <div class="p-6 md:p-12 lg:p-20 w-full pb-10 md:pb-16 flex flex-col justify-end">
+                            <span class="bg-orange-500 text-white text-xs md:text-sm font-extrabold px-5 md:px-6 py-2 rounded-full uppercase tracking-widest mb-4 inline-block w-max shadow-lg">${b.tag}</span>
+                            
+                            <h2 class="fluid-h1 font-extrabold text-white mb-6 drop-shadow-lg leading-tight">${b.title}</h2>
+                            
+                            <div class="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-4 md:gap-6 mt-2 max-w-3xl">
+                                <!-- Retail Detail -->
+                                <div class="flex flex-1 items-center justify-between gap-4 bg-white/20 backdrop-blur-md p-3 pl-6 rounded-full border border-white/30 w-full sm:w-auto">
+                                    <div class="flex flex-col items-start">
+                                        <span class="text-[10px] md:text-xs text-gray-200 uppercase font-bold tracking-widest">Retail (1pc)</span>
+                                        <span class="text-2xl md:text-3xl text-white font-extrabold leading-none mt-1">₹${b.rPrice}</span>
+                                    </div>
+                                    <button onclick="addCardToCart('${b.productId}', 'retail')" class="bg-orange-500 hover:bg-orange-400 text-white text-sm md:text-base font-extrabold px-6 py-3 rounded-full transition-all shadow-glow">
+                                        Add 
+                                    </button>
                                 </div>
-                                <button onclick="addCardToCart('${b.productId}', 'retail')" class="bg-orange-500 hover:bg-orange-400 text-white text-sm md:text-base font-extrabold px-6 py-3 md:py-4 rounded-full transition-all shadow-glow">
-                                    Add 
-                                </button>
-                            </div>
 
-                            <!-- Wholesale Detail -->
-                            <div class="flex items-center justify-between bg-orange-600/20 backdrop-blur-md p-3 pl-6 rounded-[2rem] border border-orange-500/30 w-full sm:w-[90%] md:w-full lg:w-[90%] mt-2">
-                                <div class="flex flex-col items-start">
-                                    <span class="text-[10px] md:text-xs text-orange-200 uppercase font-bold tracking-widest">Wholesale (5pcs)</span>
-                                    <span class="text-2xl md:text-3xl text-white font-extrabold leading-none mt-1">₹${b.wPrice}</span>
+                                <!-- Wholesale Detail -->
+                                <div class="flex flex-1 items-center justify-between gap-4 bg-orange-600/30 backdrop-blur-md p-3 pl-6 rounded-full border border-orange-500/40 w-full sm:w-auto">
+                                    <div class="flex flex-col items-start">
+                                        <span class="text-[10px] md:text-xs text-orange-100 uppercase font-bold tracking-widest">Wholesale (5pcs)</span>
+                                        <span class="text-2xl md:text-3xl text-white font-extrabold leading-none mt-1">₹${b.wPrice}</span>
+                                    </div>
+                                    <button onclick="addCardToCart('${b.productId}', 'wholesale')" class="bg-gray-100 hover:bg-white text-gray-900 text-sm md:text-base font-extrabold px-6 py-3 rounded-full transition-all shadow-sm">
+                                        Add Bulk
+                                    </button>
                                 </div>
-                                <button onclick="addCardToCart('${b.productId}', 'wholesale')" class="bg-gray-100 hover:bg-white text-gray-900 text-sm md:text-base font-extrabold px-6 py-3 md:py-4 rounded-full transition-all shadow-sm">
-                                    Add Bulk
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -335,60 +316,17 @@
             }).join('');
         }
 
-        function playCurrentSlide() {
-            // First stop all videos
-            document.querySelectorAll('video').forEach(vid => {
-                vid.pause();
-                vid.currentTime = 0;
-            });
-
-            const banner = banners[currentSlide];
-            clearTimeout(slideTimer);
-
-            if (banner.type === 'video') {
-                const videoEl = document.getElementById(`vid-${currentSlide}`);
-                if (videoEl) {
-                    // Try to play automatically (Browser policy might block unmuted autoplay on strict devices)
-                    let playPromise = videoEl.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(error => {
-                            console.log("Browser policy blocked loud autoplay. Waiting for user interaction...");
-                        });
-                    }
-                }
-                // Exactly 10 Seconds for video banner
-                slideTimer = setTimeout(nextSlide, 10000);
-            } else {
-                // 5 seconds for image banner
-                slideTimer = setTimeout(nextSlide, 5000);
-            }
-        }
-
         function showSlide(index) {
             banners.forEach((_, i) => {
                 const slide = document.getElementById(`slide-${i}`);
-                if(i === index) { 
-                    slide.classList.remove('opacity-0', 'z-0'); 
-                    slide.classList.add('opacity-100', 'z-10'); 
-                } else { 
-                    slide.classList.remove('opacity-100', 'z-10'); 
-                    slide.classList.add('opacity-0', 'z-0'); 
-                }
+                if(i === index) { slide.classList.remove('opacity-0', 'z-0'); slide.classList.add('opacity-100', 'z-10'); } 
+                else { slide.classList.remove('opacity-100', 'z-10'); slide.classList.add('opacity-0', 'z-0'); }
             });
-            playCurrentSlide();
         }
-
-        function nextSlide() { 
-            currentSlide = (currentSlide + 1) % banners.length; 
-            showSlide(currentSlide); 
-        }
-
-        // Global un-pause helper: Jo browser autoplay block kare, to screen par touch krta j chalu thay
-        document.body.addEventListener('click', () => {
-            const currentVid = document.getElementById(`vid-${currentSlide}`);
-            if (currentVid && currentVid.paused) { currentVid.play(); }
-        }, { once: true });
-
+        function nextSlide() { currentSlide = (currentSlide + 1) % banners.length; showSlide(currentSlide); }
+        
+        // Fast 3 Seconds Interval
+        function resetInterval() { clearInterval(slideInterval); slideInterval = setInterval(nextSlide, 3000); }
 
         // --- RETAIL / WHOLESALE TOGGLE ---
         function setMode(mode) {
@@ -527,7 +465,8 @@
                 
                 return `
                 <div class="bg-white p-3 md:p-4 rounded-[1.5rem] md:rounded-[2rem] border border-gray-100 shadow-sm flex items-center gap-3 md:gap-4 transition-all hover:shadow-md">
-                    <img src="${item.img}" alt="${item.name}" class="w-20 h-20 md:w-24 md:h-24 object-cover rounded-xl md:rounded-2xl shadow-sm border border-gray-50 shrink-0" onerror="this.src='https://via.placeholder.com/150?text=IMG'">
+                    <!-- FIXED IMAGE: Changed to object-contain and added background to show full product properly -->
+                    <img src="${item.img}" alt="${item.name}" class="w-20 h-20 md:w-24 md:h-24 object-contain bg-gray-50 p-1.5 rounded-xl md:rounded-2xl shadow-sm border border-gray-100 shrink-0" onerror="this.src='https://via.placeholder.com/150?text=IMG'">
                     
                     <div class="flex-1 min-w-0 flex flex-col justify-center items-start">
                         <h4 class="font-extrabold text-gray-900 text-lg md:text-xl truncate leading-tight w-full">${item.name}</h4>
@@ -609,10 +548,11 @@
             toggleCart();
         });
 
-        // Initialize On Load
+        // Initialize
         renderBanners();
         setMode('retail'); 
-        showSlide(0); // This will start the first slide and play video automatically
+        resetInterval(); // Starts 3 seconds timer
+
     </script>
 </body>
 </html>
